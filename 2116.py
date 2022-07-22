@@ -1,6 +1,3 @@
-import sys
-sys.setrecursionlimit(10**6) # recursion error
-
 def biggest(dice, down): # 옆면 중에서 가장 큰 값, down은 0~5까지 인덱스
     max = 0
     for i in range(6):
@@ -9,14 +6,15 @@ def biggest(dice, down): # 옆면 중에서 가장 큰 값, down은 0~5까지 �
                 max = dice[i]
     return max
 
-def cal_tot(dices, down_num, count): # 재귀, count로 점검
-    if count == 0:
-        return 0
-    else:
-        for i in range(6):
-            if (down_num == dices[-count][i]):
-                down_idx = i
-        return biggest(dices[-count], down_idx) + cal_tot(dices, dices[-count][5-i], count-1)
+def cal_tot(dices, down_num, count): # count로 점검
+    sum = 0
+    for i in range(count):
+        for j in range(6):
+            if (down_num == dices[-count][j]):
+                down_idx = j
+        sum += biggest(dices[i], down_idx)
+        down_num = dices[i][5 - down_idx]
+    return sum
 
 num_dc = int(input())
 dices = []
